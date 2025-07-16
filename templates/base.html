@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}Expense Tracker App{% endblock %}</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    integrity="sha512-Xx7z6DZ5Cz1+5QGHXs+LncKYzHa1vXm6HDbGyH7W07xF+EEQaKdZnloK+e5oWyNmjA4mCS1mOwDGL4hxzzM8yA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+  <header style="display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: #1f1f1f; color: #fff;">
+    <h1 style="margin: 0; font-size: 24px;">
+      <i class="fa-solid fa-wallet" style="color: #00d4ff;"></i> Expenza
+    </h1>
+    <nav>
+      {% if current_user.is_authenticated %}
+        <span style="margin-right: 15px;">👋 Welcome, <strong>{{ current_user.username }}</strong></span>
+        <a href="{{ url_for('logout') }}" style="color: #fff; text-decoration: none;">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </a>
+      {% else %}
+        <a href="{{ url_for('login') }}" style="color: #fff; margin-right: 15px; text-decoration: none;">
+          <i class="fa-solid fa-right-to-bracket"></i> Login
+        </a>
+        <a href="{{ url_for('signup') }}" style="color: #fff; text-decoration: none;">
+          <i class="fa-solid fa-user-plus"></i> Sign Up
+        </a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main style="padding: 20px;">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul style="list-style: none; padding: 0;">
+          {% for message in messages %}
+            <li style="background-color: #ffd966; padding: 10px; margin-bottom: 10px; border-radius: 5px;">
+              {{ message }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer style="text-align: center; padding: 15px; background-color: #1f1f1f; color: #ccc;">
+    <p>&copy; 2025 Preeti | All rights reserved</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<h2>🔑 Login</h2>
+
+<form method="POST">
+    <label>Username:</label>
+    <input 
+        type="text" 
+        name="username" 
+        required
+        value="{{ request.form.get('username', '') if not current_user.is_authenticated else '' }}"
+    ><br><br>
+
+    <label>Password:</label>
+    <div style="display: flex; align-items: center; gap: 8px;">
+    <input 
+        type="password" 
+        name="password" 
+        id="password"
+        required
+        autocomplete="new-password"
+        style="flex: 1;"
+    >
+    <span 
+        onclick="togglePassword()" 
+        style="cursor: pointer; font-size: 18px;"
+    >👁️</span>
+</div>
+
+    <br><br>
+
+    <button type="submit">Login</button>
+</form>
+
+<p>Don't have an account? <a href="{{ url_for('signup') }}">Sign up here</a>.</p>
+
+<script>
+    function togglePassword(){
+        const passwordField = document.getElementById("password");
+        const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+        passwordField.setAttribute("type", type);
+    }
+</script>
+{% endblock %}

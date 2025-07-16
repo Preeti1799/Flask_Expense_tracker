@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Top Spending Categories{% endblock %}
+
+{% block content %}
+    <h2>Top Spending Categories</h2>
+    {% if sorted_totals %}
+        <ul>
+            {% for category, total in sorted_totals %}
+                <li><strong>{{ category }}</strong>: ₹{{ "{:,.2f}".format(total) }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No expense data available.</p>
+    {% endif %}
+
+    <a href="{{ url_for('home') }}">
+        <button style="margin-top: 20px;">🏠 Back to Home</button>
+    </a>
+{% endblock %}

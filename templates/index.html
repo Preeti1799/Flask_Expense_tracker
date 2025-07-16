@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Expense Tracker{% endblock %}
+
+{% block content %}
+    <form method="get" action="{{ url_for('home') }}" style="margin-bottom: 20px;">
+        <label for="month">Filter by Month:</label>
+        <input type="month" name="month" id="month" value="{{ selected_month or '' }}">
+
+        <label for="date" style="margin-left: 20px;">Or Specific Date:</label>
+        <input type="date" name="date" id="date" value="{{ selected_date or '' }}">
+
+        <button type="submit" style="margin-left: 10px;">Apply</button>
+    </form>
+
+    <h2>Expenses:</h2>
+    {% if expenses %}
+        <ul>
+            {% for expense in expenses %}
+                <li>
+                    {{ expense.date.strftime('%Y-%m-%d') }} - ₹{{ "{:,.2f}".format(expense.amount) }} | {{ expense.category }} | {{ expense.description }}
+                </li>
+            {% endfor %}
+        </ul>
+        <h3>Total: ₹{{ "{:,.2f}".format(total) }}</h3>
+    {% else %}
+        <p>No expenses found for the selected period.</p>
+    {% endif %}
+
+    <a href="{{ url_for('add_expense') }}" style="display: inline-block; padding: 8px 16px; font-weight: bold; margin-top: 20px; background-color: #2d89ef; color: white; text-decoration: none; border-radius: 5px;">
+        ➕ Add New Expense
+    </a>
+    <a href="{{ url_for('view_expenses') }}">
+        <button style="padding: 8px 16px; font-weight: bold; margin-top: 20px;">📋 View All Expenses</button>
+    </a>
+    <a href="{{ url_for('top_spending_category') }}">
+        <button style="margin-top: 10px;">📊 Top Spending Categories</button>
+    </a>
+    <a href="{{ url_for('filter_by_category') }}">
+        <button style="margin-top: 10px;">🔍 Filter by Category</button>
+    </a>
+{% endblock %}

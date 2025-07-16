@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}View Expenses{% endblock %}
+
+{% block content %}
+    <h2>All Expenses</h2>
+    {% if expenses %}
+        <table border="1" cellpadding="8" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Amount (₹)</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense.date }}</td>
+                        <td>₹{{ "{:.2f}".format(expense.amount) }}</td>
+                        <td>{{ expense.category }}</td>
+                        <td>{{ expense.description }}</td>
+                        <td>
+                            <form action="{{ url_for('delete_expense', expense_id=expense.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" onclick="return confirm('Delete this expense?')">🗑 Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No expenses found.</p>
+    {% endif %}
+
+    <br>
+    <a href="/">← Back to Home</a>
+{% endblock %}

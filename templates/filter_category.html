@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Filter by Category{% endblock %}
+
+{% block content %}
+  <h2>Filter Expenses by Category</h2>
+  <form method="POST">
+    <input type="text" name="category" placeholder="Enter category (e.g. Travel)" required>
+    <button type="submit">Filter</button>
+  </form>
+
+  {% if expenses %}
+    <h3>Results for '{{ selected_category }}'</h3>
+    <ul>
+      {% for expense in expenses %}
+        <li>{{ expense.date }} - ₹{{ expense.amount }} | {{ expense.category }} | {{ expense.description }}</li>
+      {% endfor %}
+    </ul>
+    <h4>Total: ₹{{ total }}</h4>
+  {% elif selected_category %}
+    <p>No expenses found for category '{{ selected_category }}'</p>
+  {% endif %}
+  
+  <a href="{{ url_for('home') }}"><button>🏠 Back to Home</button></a>
+{% endblock %}

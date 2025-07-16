@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<h2>🔐 Sign Up</h2>
+
+<form method="POST">
+    <label>Username:</label>
+    <input type="text" name="username" required><br><br>
+
+    <label>Password:</label>
+    <div style="display: flex; align-items: center; gap: 8px;">
+        <input 
+            type="password" 
+            name="password" 
+            id="password"
+            required
+            autocomplete="new-password"
+            style="flex: 1;"
+        >
+        <span 
+            onclick="togglePassword(this)" 
+            style="cursor: pointer; font-size: 18px;"
+        >👁️</span>
+    </div>
+
+    <br><br>
+    <button type="submit">Create Account</button>
+</form>
+
+<p>Already have an account? <a href="{{ url_for('login') }}">Login here</a>.</p>
+
+<script>
+    function togglePassword(icon) {
+        const passwordField = document.getElementById("password");
+        const isPassword = passwordField.type === "password";
+        passwordField.type = isPassword ? "text" : "password";
+        icon.textContent = isPassword ? "🙈" : "👁️";
+    }
+</script>
+{% endblock %}
